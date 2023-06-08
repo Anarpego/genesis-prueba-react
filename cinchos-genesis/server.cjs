@@ -69,6 +69,76 @@ app.post('/api/orders', async (req, res) => {
   }
 });
 
+app.get('/api/invoices', async (req, res) => {
+  try {
+    const [invoices] = await pool.query(`
+      SELECT 
+        invoice.id, 
+        invoice.invoice_number, 
+        invoice.pricing, 
+        customer.name, 
+        customer.last_name, 
+        customer.email,
+        item.color,
+        item.quantity,
+        item.unit_price
+      FROM invoice
+      INNER JOIN customer ON invoice.customer_id = customer.id
+      INNER JOIN item ON invoice.id = item.invoice_id
+    `);
+    res.json(invoices);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+});
+
+app.put('/api/invoices/:id', async (req, res) => {
+  const { id } = req.params;
+  const { customer_id, pricing } = req.body;
+  try {
+    await pool.query(
+      'UPDATE invoice SET customer_id = ?, pricing = ? WHERE id = ?',
+      [customer_id, pricing, id]
+    );
+    res.send('Invoice updated');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+});
+
+app.delete('/api/invoices/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    await pool.query('DELETE FROM invoice WHERE id = ?', [id]);
+    res.send('Invoice deleted');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+});
+
+app.get('/api/customers', async (req, res) => {
+  try {
+    const [customers] = await pool.query('SELECT * FROM customer');
+    res.json(customers);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+});
+
+app.get('/api/items', async (req, res) => {
+  try {
+    const [items] = await pool.query('SELECT * FROM item');
+    res.json(items);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+});
+
 app.listen(3000, () => {
   console.log('Server is running at http://localhost:3000');
 });

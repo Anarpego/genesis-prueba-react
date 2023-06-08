@@ -53,7 +53,7 @@ function OrderBelt() {
       <input type="submit" value="Agregar" className="orderButton" />
       {showNextButton && (
         <Link to="/invoicedetails">
-          <button className="nextButton">Next</button>
+          <button className="nextButton">Siguiente</button>
         </Link>
       )}
     </form>
