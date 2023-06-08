@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import CustomerInfo from './pages/CustomerInfo.tsx';
+import CustomerInfo from './pages/CustomerInfo';
+import OrderBelt from './pages/OrderBelt';
+import InvoiceDetails from './pages/InvoiceDetails';
 import './app.css';
 
 function App() {
@@ -7,9 +9,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/customerinfo" element={<CustomerInfo />} />
-        {/* Add other routes here */}
-        {/* <Route path="/otherpage" element={<OtherPage />} /> */}
-        {/* If no other route matches, redirect to CustomerInfo page */}
+        <Route path="/orderbelt" element={<OrderBelt />} />
+        <Route path="/invoicedetails" element={<InvoiceDetails />} />
         <Route path="/" element={<CustomerInfo />} />
       </Routes>
     </Router>

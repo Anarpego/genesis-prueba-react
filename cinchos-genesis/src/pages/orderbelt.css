@@ -1,0 +1,50 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #f4f4f4;
+}
+
+label {
+    margin-bottom: 10px;
+}
+
+input, select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+input[type="submit"] {
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    margin-top: 20px;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+input[type="submit"], .nextButton {
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    margin-top: 20px;
+}
+
+input[type="submit"]:hover, .nextButton:hover {
+    background-color: #45a049;
+}
