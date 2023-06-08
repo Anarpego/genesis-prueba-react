@@ -95,12 +95,19 @@ app.get('/api/invoices', async (req, res) => {
 
 app.put('/api/invoices/:id', async (req, res) => {
   const { id } = req.params;
-  const { customer_id, pricing } = req.body;
+  const { name, last_name, email } = req.body;
+  
   try {
-    await pool.query(
-      'UPDATE invoice SET customer_id = ?, pricing = ? WHERE id = ?',
-      [customer_id, pricing, id]
-    );
+    const [invoiceResult] = await pool.query('SELECT customer_id FROM invoice WHERE id = ?', [id]);
+    
+    if (!invoiceResult.length) {
+      return res.status(404).send('Invoice not found');
+    }
+
+    const customer_id = invoiceResult[0].customer_id;
+
+    await pool.query('UPDATE customer SET name = ?, last_name = ?, email = ? WHERE id = ?', [name, last_name, email, customer_id]);
+
     res.send('Invoice updated');
   } catch (error) {
     console.error(error);
@@ -108,16 +115,38 @@ app.put('/api/invoices/:id', async (req, res) => {
   }
 });
 
+
 app.delete('/api/invoices/:id', async (req, res) => {
   const { id } = req.params;
   try {
+    await pool.query('START TRANSACTION');
+    
+    const [invoiceResult] = await pool.query('SELECT customer_id, belt_id FROM invoice WHERE id = ?', [id]);
+
+    if (invoiceResult.length === 0) {
+      return res.status(404).send('Invoice not found');
+    }
+
+    const { customer_id, belt_id } = invoiceResult[0];
+
+    await pool.query('DELETE FROM item WHERE invoice_id = ?', [id]);
+    
     await pool.query('DELETE FROM invoice WHERE id = ?', [id]);
-    res.send('Invoice deleted');
+
+    await pool.query('DELETE FROM belt WHERE id = ?', [belt_id]);
+    await pool.query('DELETE FROM customer WHERE id = ?', [customer_id]);
+
+    await pool.query('COMMIT');
+
+    res.send('Invoice and related records deleted');
   } catch (error) {
+
+    await pool.query('ROLLBACK');
     console.error(error);
     res.status(500).send('Server error');
   }
 });
+
 
 app.get('/api/customers', async (req, res) => {
   try {
