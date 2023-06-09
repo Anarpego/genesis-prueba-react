@@ -76,7 +76,7 @@ EOF
 mysql -u root -p < {cambiar}.sql 
 ```
 
-> Se le pedirá su contraseña y ya se podra usar un gestor como Tableplus o entrar desde el cliente para saber que todo se creo correctamente.
+> Se le pedirá su contraseña y ya se podria usar un gestor como Tableplus o entrar desde el cliente para saber que todo se creó correctamente.
 
 
 ---
