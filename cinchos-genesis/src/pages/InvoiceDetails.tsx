@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { jsPDF } from "jspdf";
 import './invoicedetails.css';
 
@@ -33,7 +33,7 @@ const InvoiceDetails = () => {
     last_name: "",
     email: "",
   });
-  const navigate = useNavigate();
+ 
 
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
@@ -210,7 +210,9 @@ const InvoiceDetails = () => {
           Siguiente
         </button>
       </div>
-      <button onClick={() => navigate('/CustomerInfo')}>HOME</button>
+      <Link to='/CustomerInfo'>
+      <button>HOME</button>
+    </Link>
     </div>
   );
 };

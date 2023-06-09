@@ -3,6 +3,7 @@ import CustomerInfo from './pages/CustomerInfo';
 import OrderBelt from './pages/OrderBelt';
 import InvoiceDetails from './pages/InvoiceDetails';
 import './app.css';
+import { useState, useEffect } from "react";
 
 function App() {
   return (
